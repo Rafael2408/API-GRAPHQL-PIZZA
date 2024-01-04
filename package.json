@@ -1,0 +1,18 @@
+{
+  "name": "api-graphql-pizza",
+  "version": "1.0.0",
+  "description": "API GraphQL Pizza",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jorge Rafael Rosero 2024",
+  "license": "ISC",
+  "dependencies": {
+    "apollo-server": "^3.13.0",
+    "merge-graphql-schemas": "^1.7.8",
+    "nodemon": "^3.0.2",
+    "pg-promise": "^11.5.4"
+  }
+}
