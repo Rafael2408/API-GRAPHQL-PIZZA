@@ -22,8 +22,6 @@ const pizzaResolver = {
                     `, [pizza.piz_name, pizza.piz_origin])
                     if(pizza.ingredientsPizza.length > 0){
                         pizza.ingredientsPizza.forEach(async (element) => {
-                            console.log(newPizza.piz_id, element.ing_id, element.pi_portion)
-
                                 await db.none(`
                                 INSERT INTO pizzas_ingredients (piz_id, ing_id, pi_portion)
                                 VALUES ($1, $2, $3);
@@ -36,32 +34,32 @@ const pizzaResolver = {
                 console.log({error: error.message})
             }
         },
-        async updatePizza(root, {pizza}){
+        async updatePizza(root, { pizza }) {
             try {
                 if (pizza == undefined) {
                     return null
                 } else {
-                    const newPizzza = await db.one(`
-                        UPDATE pizzas SET piz_name = $2, piz_origin = $3, piz_state = $4
-                        WHERE piz_id = $1 returning *;
-                    `, [pizza.piz_id, pizza.piz_name, pizza.piz_origin, pizza.piz_state])
-
-                    if(pizza.ingredientsPizza.length > 0){
-                        db.none(`DELETE FROM pizzas_ingredients WHERE piz_id = $1`, [newPizzza.piz_id])
+                    const updatedPizza = await db.one(`
+                    UPDATE pizzas 
+                    SET piz_name = $1, piz_origin = $2, piz_state = $3
+                    WHERE piz_id = $4
+                    RETURNING *;
+                `, [pizza.piz_name, pizza.piz_origin, pizza.piz_state, pizza.piz_id])
+                    if (pizza.ingredientsPizza.length > 0) {
                         pizza.ingredientsPizza.forEach(async (element) => {
-                            console.log(newPizzza.piz_id, element.ing_id, element.pi_portion)
- 
-                                await db.none(`
-                                UPDATE pizzas_ingredients SET pi_portion = $1
-                                WHERE piz_id = $2 AND ing_id = $3;
-                            `, [element.pi_portion, newPizzza.piz_id, element.ing_id])
+                            await db.none(`
+                            UPDATE pizzas_ingredients 
+                            SET pi_portion = $1
+                            WHERE piz_id = $2 AND ing_id = $3;
+                        `, [element.pi_portion, updatedPizza.piz_id, element.ing_id])
                         });
                     }
+                    return updatedPizza
                 }
             } catch (error) {
-                console.log(error.message)
+                console.log({ error: error.message })
             }
-        }
+        },
     }, 
     pizzas: {
         ingredients(pizza) {
@@ -86,10 +84,7 @@ const pizzaResolver = {
 
             return res.total_calories
         }
-
-
     }
-
 }
 
 module.exports = pizzaResolver

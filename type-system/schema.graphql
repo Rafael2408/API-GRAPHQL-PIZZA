@@ -4,7 +4,7 @@ type Query {
 
 type Mutation{
     createPizza (pizza: inputPizza): pizzas,
-    updatePizzza (pizza: updatePizza): pizzas
+    updatePizza (pizza: updatePizza): pizzas
 }
 
 type pizzas {
