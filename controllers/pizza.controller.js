@@ -60,9 +60,27 @@ const pizzaResolver = {
                 console.log({ error: error.message })
             }
         },
+        async deletePizza(root, { piz_id }) { 
+            try {
+                if (piz_id == undefined) {
+                    return null
+                } else {
+                    await db.none(`
+                        DELETE FROM pizzas_ingredients WHERE piz_id = $1 returning *;
+                        DELETE FROM pizzas WHERE piz_id = $1 returning *;
+                    `, [piz_id]) 
+                    return {
+                        piz_id: piz_id,
+                        message: `Pizza with id ${piz_id} was deleted successfully`
+                    }
+                }
+            } catch (error) {
+                console.log({ error: error.message })
+            }
+        } 
     }, 
     pizzas: {
-        ingredients(pizza) {
+        ingredients(pizza) { 
             return db.any(`
                 SELECT i.*, pi.pi_portion
                 FROM pizzas p, ingredients i, pizzas_ingredients pi

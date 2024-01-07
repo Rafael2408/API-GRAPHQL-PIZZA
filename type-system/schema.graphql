@@ -4,7 +4,13 @@ type Query {
 
 type Mutation{
     createPizza (pizza: inputPizza): pizzas,
-    updatePizza (pizza: updatePizza): pizzas
+    updatePizza (pizza: updatePizza): pizzas,
+    deletePizza (piz_id: Int): deletePizzaResponse
+}
+
+type deletePizzaResponse {
+    piz_id: Int!,
+    message: String!
 }
 
 type pizzas {
@@ -41,4 +47,8 @@ input updatePizza {
     piz_origin: String,
     piz_state: Boolean,
     ingredientsPizza: [ingredientPortion]
+}
+
+input deletePizza {
+    piz_id: Int!
 }
