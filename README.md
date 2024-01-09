@@ -1,2 +1,2 @@
 # API-GRAPHQL-PIZZA
-# Try to copy your connection file on config/
+# Try to copy your config folder with your connection file on ./config/
