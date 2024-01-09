@@ -54,7 +54,7 @@ const pizzaResolver = {
                         `, [element.pi_portion, updatedPizza.piz_id, element.ing_id])
                         });
                     }
-                    return updatedPizza
+                    return updatedPizza 
                 }
             } catch (error) {
                 console.log({ error: error.message })
