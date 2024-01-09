@@ -1,0 +1,4 @@
+# .gitignore
+config/connection.js
+node_modules/
+*.log
